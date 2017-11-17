@@ -25,3 +25,4 @@ ranWallpaperUp.random(resolutionX, resolutionY).then(wallpaper => {
 	console.log(wallpaper);
 });
 ```
+

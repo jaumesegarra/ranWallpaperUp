@@ -1,12 +1,18 @@
 {
 	"name": "ranWallpaperUp",
-	"version": "0.0.5",
+	"version": "0.5.0",
 	"description": "Get a random wallpaper from wallpaperup.com",
 	"main": "index.js",
 	"repository": "https://github.com/jaumesegarra/ranWallpaperUp",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"keywords": [
+		"node-cli",
+		"wallpaper",
+		"random",
+		"wallpaperup"
+	],
 	"author": "Jaume Segarra <jaumesv.jmr@gmail.com>",
 	"license": "ISC",
 	"dependencies": {
