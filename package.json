@@ -1,0 +1,16 @@
+{
+	"name": "ranWallpaperUp",
+	"version": "0.0.5",
+	"description": "Get a random wallpaper from wallpaperup.com",
+	"main": "index.js",
+	"repository": "https://github.com/jaumesegarra/ranWallpaperUp",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Jaume Segarra <jaumesv.jmr@gmail.com>",
+	"license": "ISC",
+	"dependencies": {
+		"jsdom": "^11.3.0",
+		"lodash": "^4.17.4"
+	}
+}
