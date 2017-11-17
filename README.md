@@ -23,5 +23,5 @@ ranWallpaperUp.random(resolutionX, resolutionY).then(wallpaper => {
 	var url = wallpaper.url;
 
 	console.log(wallpaper);
-	})
-	```
+});
+```
