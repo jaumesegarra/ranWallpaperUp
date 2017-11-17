@@ -1,5 +1,5 @@
 {
-	"name": "ranWallpaperUp",
+	"name": "ranwallpaperup",
 	"version": "0.5.0",
 	"description": "Get a random wallpaper from wallpaperup.com",
 	"main": "index.js",
