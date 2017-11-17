@@ -1,6 +1,6 @@
 # ranWallpaperUp
 
-A node cli for get a random wallpaper from wallpaperup.com
+A node module for get a random wallpaper from wallpaperup.com
 
 ## Install
 
