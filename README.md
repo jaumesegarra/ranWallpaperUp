@@ -11,7 +11,7 @@ npm install ranwallpaperup --save
 ## Usage
 
 ```js
-const ranWallpaperUp = require('ranWallpaperUp')
+const ranWallpaperUp = require('ranwallpaperup')
 
 var resolutionX = 1920; // optional
 var resolutionY = 1080; // optional
