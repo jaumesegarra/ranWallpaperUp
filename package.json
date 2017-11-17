@@ -13,7 +13,11 @@
 		"random",
 		"wallpaperup"
 	],
-	"author": "Jaume Segarra <jaumesv.jmr@gmail.com>",
+	"author": {
+		"name": "Jaume Segarra",
+		"email": "jaumesegarra.jobs@protonmail.com",
+		"url": "https://github.com/jaumesegarra"
+	},
 	"license": "ISC",
 	"dependencies": {
 		"jsdom": "^11.3.0",
