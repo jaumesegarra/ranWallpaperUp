@@ -35,11 +35,7 @@ function getRandom(wallpapersArray) {
 	var wall = _.sample(wallpapersArray);
 	var url = DOWNLOAD_URL+wall.id;
 
-	if(wall.resolution[0] < resolution[0] && wall.resolution[1] < resolution[1]){
-		url+= "/"+wall.resolution[0]+"/"+wall.resolution[1];
-	}else {
-		url+= "/"+resolution[0]+"/"+resolution[1];
-	}
+	url+= "/"+resolution[0]+"/"+resolution[1];
 
 	wall.url = url;
 
@@ -64,7 +60,7 @@ function loadPage(resolve, reject){
 			var html = stringToDOM(data).querySelectorAll(DIV_WALLS);
 			var walls = DOMtoWallpapersArray(html);
 			var resolution_walls = _.filter(walls, function (o) {
-				return (o.resolution[0] >= resolution[0]-500 && o.resolution[1] >= resolution[1]-500)
+				return (o.resolution[0] >= resolution[0] && o.resolution[1] >= resolution[1])
 			});
 
 			if(resolution_walls.length == 0 && num_petitions<=ATTEMPS_NUMBER)
