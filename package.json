@@ -1,6 +1,6 @@
 {
 	"name": "ranwallpaperup",
-	"version": "0.5.3",
+	"version": "0.6",
 	"description": "Get a random wallpaper from wallpaperup.com",
 	"main": "index.js",
 	"repository": "https://github.com/jaumesegarra/ranWallpaperUp",
