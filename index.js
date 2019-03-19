@@ -1,30 +1,34 @@
 'use strict';
 
-var https = require("https");
-var _ = require("lodash");
-var jsdom = require("jsdom").JSDOM;
+const request = require('request');
+const _ = require("lodash");
+const jsdom = require("jsdom").JSDOM;
 
-var URL = "https://www.wallpaperup.com/random/remote?anticache=";
-var DOWNLOAD_URL = "https://www.wallpaperup.com/wallpaper/download/";
-var DIV_WALLS = ".thumb-adv";
-var ATTEMPS_NUMBER = 5;
-var resolution = [1920, 1080];
+const URL = "http://www.wallpaperup.com/random/remote?anticache=";
+const DOWNLOAD_URL = "https://www.wallpaperup.com/wallpaper/download/";
+const DIV_WALLS = ".thumb-adv";
+const ATTEMPS_NUMBER = 5;
+
+let resolution = [1920, 1080];
 
 function stringToDOM(str) {
 	return new jsdom('<!DOCTYPE html>'+str).window.document;
 }
 
 function DOMtoWallpapersArray(dom) {
-	var walls = [];
+	let walls = [];
 	_.forEach(dom, function (element) {
-		var el_id = element.querySelector(".thumb").getAttribute("data-wid");
-		var el_resolution = (element.querySelector("span[title='Resolution']").innerHTML+"").split("x");
-		var el_urlthumb = ( element.querySelector(".thumb").getAttribute("src") || element.querySelector(".thumb").getAttribute("data-src"));
+		const thumbElement = element.querySelector(".thumb");
+		const resolutionSpan = element.querySelector("span[title='Resolution']");
+
+		let id = thumbElement.getAttribute("data-wid");
+		let resolution = (resolutionSpan.innerHTML+"").split("x");
+		let thumbUrl = (thumbElement.getAttribute("src") || thumbElement.getAttribute("data-src"));
 
 		walls.push({
-			'id': el_id,
-			'resolution': el_resolution,
-			'thumb_url': el_urlthumb
+			'id': id,
+			'resolution': resolution,
+			'thumbUrl': thumbUrl
 		});
 	});
 
@@ -32,9 +36,9 @@ function DOMtoWallpapersArray(dom) {
 }
 
 function getRandom(wallpapersArray) {
-	var wall = _.sample(wallpapersArray);
-	var url = DOWNLOAD_URL+wall.id;
+	let wall = _.sample(wallpapersArray);
 
+	let url = DOWNLOAD_URL+wall.id;
 	url+= "/"+resolution[0]+"/"+resolution[1];
 
 	wall.url = url;
@@ -42,37 +46,24 @@ function getRandom(wallpapersArray) {
 	return wall;
 }
 
-var num_petitions = 0;
-function loadPage(resolve, reject){	
-	num_petitions++;
+function loadPage(resolve, reject, petitionNumber = 1){	
 
-	var r = parseInt(Math.random()*10000000);
-	var url = URL+r;
+	const ANTICACHE_NUMBER = parseInt(Math.random()*10000000);
 
-	https.get(url, function(response) {
-		var data = '';
+	request(URL+ANTICACHE_NUMBER, function (error, response, body) {
 
-		response.on('data', function (chunk){
-			data += chunk;
+		const HTML = stringToDOM(body).querySelectorAll(DIV_WALLS);
+		const WALLS = DOMtoWallpapersArray(HTML);
+
+		const RESOLUTION_WALLS = _.filter(WALLS, w => {
+			return (w.resolution[0] >= resolution[0] && w.resolution[1] >= resolution[1])
 		});
 
-		response.on('end',function(){
-			var html = stringToDOM(data).querySelectorAll(DIV_WALLS);
-			var walls = DOMtoWallpapersArray(html);
-			var resolution_walls = _.filter(walls, function (o) {
-				return (o.resolution[0] >= resolution[0] && o.resolution[1] >= resolution[1])
-			});
+		if(RESOLUTION_WALLS.length == 0 && petitionNumber < ATTEMPS_NUMBER)
+			loadPage(resolve, reject, petitionNumber+1);
+		else
+			resolve(getRandom(((RESOLUTION_WALLS.length > 0) ? RESOLUTION_WALLS : WALLS)));
 
-			if(resolution_walls.length == 0 && num_petitions<=ATTEMPS_NUMBER)
-				loadPage(resolve, reject);
-			else
-				resolve(getRandom(((resolution_walls.length > 0) ? resolution_walls : walls)));
-			
-		});
-	}).on('error', (e) => {
-		console.log(e);
-
-		reject(null);
 	});
 }
 
